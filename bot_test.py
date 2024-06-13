@@ -1,5 +1,5 @@
-# This example requires the 'message_content' intent.
-
+#TODO: Add help commands
+#
 import random
 import discord
 from discord.ext import commands
@@ -64,7 +64,7 @@ async def wordcount(ctx, member: discord.Member, arg):
 @bot.command()
 async def goodbot(ctx):
     print('I am here!')
-    await ctx.send(f'Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>')
+    await ctx.send(f'\`\`\`Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>\`\`\`')
 
 async def check_twitter(message):
     twitter_pattern = r'.*https:\/\/twitter.com\/(\w+\/status\/\d+).*'
