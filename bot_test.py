@@ -1,5 +1,5 @@
-# This example requires the 'message_content' intent.
-
+#TODO: Add help commands
+#
 import random
 import discord
 from discord.ext import commands
