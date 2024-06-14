@@ -1,0 +1,7 @@
+#random
+discord
+#discord.ext
+datetime
+#re
+argparse
+configparser
