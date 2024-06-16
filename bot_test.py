@@ -88,20 +88,23 @@ def main():
         print('I am here!')
         await ctx.send(f'Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>')
 
-    @bot.command()
     async def check_twitter(message):
-        twitter_pattern = r'.*https:\/\/twitter.com\/(\w+\/status\/\d+).*'
-        x_pattern = r'.*https:\/\/x.com\/(\w+\/status\/\d+).*'
+        twitter_pattern = r'(.*)https:\/\/twitter.com\/(\w+\/status\/\d+)(.*)'
+        x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)(.*)'
 
         if re.match(twitter_pattern, message.content):
-            twitter_link = re.match(twitter_pattern, message.content).group(1)
-            # Do something with the twitter link
-            await message.channel.send(f"I made a better link!: https://fxtwitter.com/{twitter_link}")
+            prequel = re.match(twitter_pattern, message.content).group(1)
+            twitter_link = re.match(twitter_pattern, message.content).group(2)
+            sequel = re.match(twitter_pattern, message.content).group(3)
+            await message.delete()
+            await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://fxtwitter.com/{twitter_link} {sequel}")
 
         elif re.match(x_pattern, message.content):
-            x_link = re.match(x_pattern, message.content).group(1)
-            # Do something with the x link
-            await message.channel.send(f"I made a better link!: https://fxtwitter.com/{x_link}")
+            prequel = re.match(x_pattern, message.content).group(1)
+            x_link = re.match(x_pattern, message.content).group(2)
+            sequel = re.match(x_pattern, message.content).group(3)
+            await message.delete()
+            await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}")
     @bot.event
     async def on_message(message):
         bot.loop.create_task(check_twitter(message))
