@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 
 config_real.cfg
+config_test.cfg

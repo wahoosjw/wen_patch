@@ -8,6 +8,8 @@ import re
 import argparse
 import configparser
 
+from sam_bot_help import SamBotHelp
+
 class BotConf():
     def __init__(self):
         self.bot_token = None
@@ -33,9 +35,11 @@ def main():
 
     bot_conf = BotConf()
     bot = commands.Bot(command_prefix='!', intents=intents)
+    bot.help_command = SamBotHelp()
 
     @bot.command()
     async def vibecheck(ctx, member: discord.Member):
+        """Checks the vibe of a user"""
         if member == None:
             member = ctx.author
         # TODO: Add error handling for when the user doesn't exist
@@ -57,10 +61,12 @@ def main():
 
     @bot.command()
     async def ghorvas(ctx):
+        """I shoot. That's it."""
         await ctx.send('I shoot.')
 
     @bot.command()
     async def wordcount(ctx, member: discord.Member, arg):
+        """Counts the number of times a word has been used by a user in the last 5000 messages."""
         lookback = 5000
         guild = ctx.guild
         guild_members = []
@@ -85,10 +91,12 @@ def main():
 
     @bot.command()
     async def goodbot(ctx):
+        """Thanks the bot for its service."""
         print('I am here!')
         await ctx.send(f'Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>')
 
     async def check_twitter(message):
+        """Checks if a message contains a twitter link and replaces it with an fxtwitter link."""
         twitter_pattern = r'(.*)https:\/\/twitter.com\/(\w+\/status\/\d+)(.*)'
         x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)(.*)'
 
