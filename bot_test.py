@@ -1,8 +1,6 @@
 #TODO: Add help commands
 #
 import random
-import discord
-from discord.ext import commands
 from datetime import datetime
 import re
 import argparse
@@ -10,11 +8,14 @@ import configparser
 
 from sam_bot_help import SamBotHelp
 
+import discord
+from discord.ext import commands
+
 class BotConf():
     def __init__(self):
         self.bot_token = None
         self.setup()
-    
+
     def setup(self):
         # Parse command line arguments
         parser = argparse.ArgumentParser()
@@ -40,7 +41,7 @@ def main():
     @bot.command()
     async def vibecheck(ctx, member: discord.Member):
         """Checks the vibe of a user"""
-        if member == None:
+        if member is None:
             member = ctx.author
         # TODO: Add error handling for when the user doesn't exist
         # TODO:
@@ -53,7 +54,7 @@ def main():
         else:
             temp_list = []
             async for message in ctx.channel.history(limit=5000):
-                if message.author.name == member.name and message.content.startswith('!') == False:
+                if message.author.name == member.name and not message.content.startswith('!'):
                     temp_list.append(message)
             print(f' Length of list: {len(temp_list)}')
             my_message = random.choice(temp_list)
@@ -122,4 +123,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
