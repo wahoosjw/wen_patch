@@ -90,6 +90,21 @@ def main():
             await ctx.send(f'<@{member.id}> has written {arg} {word_count} times in the last {lookback} messages!')
 
     @bot.command()
+    async def roll(ctx, low, high):
+        """Rolls a number between low-high. Or 1-high. Or 1-100"""
+        if low == None:
+            low = 1
+            high = 100
+        else if high == None:
+            high = low
+            low = 1
+        if high < low:
+            await ctx.send('High number must be larger than low number')
+        else:
+            roll = random.randrange(low,high)
+            await ctx.send(f'Rolling between {low} and {high}...> {roll}.')
+
+    @bot.command()
     async def goodbot(ctx):
         """Thanks the bot for its service."""
         print('I am here!')
