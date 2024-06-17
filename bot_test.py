@@ -90,6 +90,37 @@ def main():
             await ctx.send(f'<@{member.id}> has written {arg} {word_count} times in the last {lookback} messages!')
 
     @bot.command()
+    async def roll(ctx, arg="1d100"):
+        """Rolls a number xdy where x is the number of dice and y is the number of sides."""
+        if 'd' in arg:
+            num_dice, num_sides = arg.split('d')
+            try:
+                num_dice = int(num_dice)
+                num_sides = int(num_sides)
+                if num_dice <= 0 or num_sides <= 0:
+                    await ctx.send('Number of dice and number of sides must be positive integers.')
+                else:
+                    rolls = [random.randint(1, num_sides) for _ in range(num_dice)]
+                    total = sum(rolls)
+                    await ctx.send(f'Rolling {num_dice}d{num_sides}...> {rolls} (Total: {total}).')
+            except ValueError:
+                await ctx.send('Invalid input. Please use the format xdy where x is the number of dice and y is the number of sides.')
+        else:
+            await ctx.send('Invalid input. Please use the format xdy where x is the number of dice and y is the number of sides.')
+
+        # if low == None:
+        #     low = 1
+        #     high = 100
+        # elif high == None:
+        #     high = low
+        #     low = 1
+        # if high < low:
+        #     await ctx.send('High number must be larger than low number')
+        # else:
+        #     roll = random.randrange(int(low),int(high))
+        #     await ctx.send(f'Rolling between {low} and {high}...> {roll}.')
+
+    @bot.command()
     async def goodbot(ctx):
         """Thanks the bot for its service."""
         print('I am here!')
