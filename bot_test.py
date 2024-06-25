@@ -128,8 +128,8 @@ def main():
 
     async def check_twitter(message):
         """Checks if a message contains a twitter link and replaces it with an fxtwitter link."""
-        twitter_pattern = r'(.*)https:\/\/twitter\.com\/(\w+\/status\/\d+)(.*)'
-        x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)(.*)'
+        twitter_pattern = r'(.*)https:\/\/twitter\.com\/(\w+\/status\/\d+)\?*\S*(.*)'
+        x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)\?*\S*(.*)'
 
         if re.match(twitter_pattern, message.content):
             prequel = re.match(twitter_pattern, message.content).group(1)
@@ -150,7 +150,7 @@ def main():
 
     async def check_instagram(message):
         """Checks if a message contains a instagram reel link and replaces it with an ddinstagram link."""
-        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/reel\/(\S*)(.*)'
+        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/reel\/([^\?\s]*)\?*\S*(.*)'
         #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
         if re.match(instagram_pattern, message.content):
             prequel = re.match(instagram_pattern, message.content).group(1)
