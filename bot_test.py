@@ -128,7 +128,7 @@ def main():
 
     async def check_twitter(message):
         """Checks if a message contains a twitter link and replaces it with an fxtwitter link."""
-        twitter_pattern = r'(.*)https:\/\/twitter.com\/(\w+\/status\/\d+)(.*)'
+        twitter_pattern = r'(.*)https:\/\/twitter\.com\/(\w+\/status\/\d+)(.*)'
         x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)(.*)'
 
         if re.match(twitter_pattern, message.content):
@@ -142,11 +142,30 @@ def main():
             prequel = re.match(x_pattern, message.content).group(1)
             x_link = re.match(x_pattern, message.content).group(2)
             sequel = re.match(x_pattern, message.content).group(3)
+            if message.reference is not None:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}", reference=message.reference)
+            else:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}")
             await message.delete()
-            await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}")
+
+    async def check_instagram(message):
+        """Checks if a message contains a instagram reel link and replaces it with an ddinstagram link."""
+        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/reel\/(\S*)(.*)'
+        #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
+        if re.match(instagram_pattern, message.content):
+            prequel = re.match(instagram_pattern, message.content).group(1)
+            reel_link = re.match(instagram_pattern, message.content).group(2)
+            sequel = re.match(instagram_pattern, message.content).group(3)
+            if message.reference is not None:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_link} {sequel}", reference=message.reference)
+            else:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_link} {sequel}")
+            await message.delete()
+
     @bot.event
     async def on_message(message):
         bot.loop.create_task(check_twitter(message))
+        bot.loop.create_task(check_instagram(message))
         await bot.process_commands(message)
 
     bot.run(bot_conf.bot_token)
