@@ -157,9 +157,9 @@ def main():
             reel_link = re.match(instagram_pattern, message.content).group(2)
             sequel = re.match(instagram_pattern, message.content).group(3)
             if message.reference is not None:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_link} {sequel}", reference=message.reference)
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}", reference=message.reference)
             else:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_link} {sequel}")
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}")
             await message.delete()
 
     @bot.event
