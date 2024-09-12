@@ -133,17 +133,17 @@ def main():
 
         if re.match(twitter_pattern, message.content):
             matches = re.match(twitter_pattern, message.content, flags = re.DOTALL)
-            prequel = matches(1)
-            twitter_link = matches(2)
-            sequel = matches(3)
+            prequel = matches.group(1)
+            twitter_link = matches.group(2)
+            sequel = matches.group(3)
             await message.delete()
             await message.channel.send(f"{message.author.display_name} sent: {prequel} https://fxtwitter.com/{twitter_link} {sequel}")
 
         elif re.match(x_pattern, message.content):
             matches = re.match(x_pattern, message.content, flags = re.DOTALL)
-            prequel = matches(1)
-            x_link = matches(2)
-            sequel = matches(3)
+            prequel = matches.group(1)
+            x_link = matches.group(2)
+            sequel = matches.group(3)
             if message.reference is not None:
                 await message.channel.send(f"{message.author.display_name}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}", reference=message.reference)
             else:
@@ -156,9 +156,9 @@ def main():
         #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
         if re.match(instagram_pattern, message.content):
             matches = re.match(instagram_pattern, message.content, flags = re.DOTALL)
-            prquel = matches(1)
-            reel_link = matches(2)
-            sequel = matches(3)
+            prequel = matches.group(1)
+            reel_link = matches.group(2)
+            sequel = matches.group(3)
             if message.reference is not None:
                 await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}", reference=message.reference)
             else:
