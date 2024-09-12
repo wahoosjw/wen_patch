@@ -132,16 +132,18 @@ def main():
         x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)\?*\S*(.*)'
 
         if re.match(twitter_pattern, message.content):
-            prequel = re.match(twitter_pattern, message.content).group(1)
-            twitter_link = re.match(twitter_pattern, message.content).group(2)
-            sequel = re.match(twitter_pattern, message.content).group(3)
+            matches = re.match(twitter_pattern, message.content, flags = re.DOTALL)
+            prequel = matches.group(1)
+            twitter_link = matches.group(2)
+            sequel = matches.group(3)
             await message.delete()
             await message.channel.send(f"{message.author.display_name} sent: {prequel} https://fxtwitter.com/{twitter_link} {sequel}")
 
         elif re.match(x_pattern, message.content):
-            prequel = re.match(x_pattern, message.content).group(1)
-            x_link = re.match(x_pattern, message.content).group(2)
-            sequel = re.match(x_pattern, message.content).group(3)
+            matches = re.match(x_pattern, message.content, flags = re.DOTALL)
+            prequel = matches.group(1)
+            x_link = matches.group(2)
+            sequel = matches.group(3)
             if message.reference is not None:
                 await message.channel.send(f"{message.author.display_name}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}", reference=message.reference)
             else:
@@ -153,9 +155,10 @@ def main():
         instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/reel\/([^\?\s]*)\?*\S*(.*)'
         #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
         if re.match(instagram_pattern, message.content):
-            prequel = re.match(instagram_pattern, message.content).group(1)
-            reel_link = re.match(instagram_pattern, message.content).group(2)
-            sequel = re.match(instagram_pattern, message.content).group(3)
+            matches = re.match(instagram_pattern, message.content, flags = re.DOTALL)
+            prequel = matches.group(1)
+            reel_link = matches.group(2)
+            sequel = matches.group(3)
             if message.reference is not None:
                 await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}", reference=message.reference)
             else:
@@ -165,7 +168,7 @@ def main():
     @bot.event
     async def on_message(message):
         bot.loop.create_task(check_twitter(message))
-        #bot.loop.create_task(check_instagram(message))
+        bot.loop.create_task(check_instagram(message))
         await bot.process_commands(message)
 
     bot.run(bot_conf.bot_token)
