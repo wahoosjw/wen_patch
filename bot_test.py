@@ -168,7 +168,7 @@ def main():
     @bot.event
     async def on_message(message):
         bot.loop.create_task(check_twitter(message))
-        #bot.loop.create_task(check_instagram(message))
+        bot.loop.create_task(check_instagram(message))
         await bot.process_commands(message)
 
     bot.run(bot_conf.bot_token)
