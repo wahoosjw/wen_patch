@@ -131,19 +131,19 @@ def main():
         twitter_pattern = r'(.*)https:\/\/twitter\.com\/(\w+\/status\/\d+)\?*\S*(.*)'
         x_pattern = r'(.*)https:\/\/x.com\/(\w+\/status\/\d+)\?*\S*(.*)'
 
-        if re.match(twitter_pattern, message.content):
+        if re.match(twitter_pattern, message.content, flags = re.DOTALL):
             matches = re.match(twitter_pattern, message.content, flags = re.DOTALL)
-            prequel = matches.group(1)
-            twitter_link = matches.group(2)
-            sequel = matches.group(3)
+            prequel = matches.group(1).strip()
+            twitter_link = matches.group(2).strip()
+            sequel = matches.group(3).strip()
             await message.delete()
             await message.channel.send(f"{message.author.display_name} sent: {prequel} https://fxtwitter.com/{twitter_link} {sequel}")
 
-        elif re.match(x_pattern, message.content):
+        elif re.match(x_pattern, message.content, flags=re.DOTALL):
             matches = re.match(x_pattern, message.content, flags = re.DOTALL)
-            prequel = matches.group(1)
-            x_link = matches.group(2)
-            sequel = matches.group(3)
+            prequel = matches.group(1).strip()
+            x_link = matches.group(2).strip()
+            sequel = matches.group(3).strip()
             if message.reference is not None:
                 await message.channel.send(f"{message.author.display_name}> sent: {prequel} https://fxtwitter.com/{x_link} {sequel}", reference=message.reference)
             else:
