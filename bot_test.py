@@ -123,7 +123,6 @@ def main():
     @bot.command()
     async def goodbot(ctx):
         """Thanks the bot for its service."""
-        print('I am here!')
         await ctx.send(f'Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>')
 
     async def check_twitter(message):
@@ -152,7 +151,8 @@ def main():
 
     async def check_instagram(message):
         """Checks if a message contains a instagram reel link and replaces it with an ddinstagram link."""
-        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/reel\/([^\?\s]*)\?*\S*(.*)'
+        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/(reel|share)\/'
+
         #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
         if re.match(instagram_pattern, message.content):
             matches = re.match(instagram_pattern, message.content, flags = re.DOTALL)
