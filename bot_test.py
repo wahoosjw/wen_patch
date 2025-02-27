@@ -159,10 +159,14 @@ def main():
             reel_or_share = matches.group(3).strip()
             link_id = matches.group(4).strip()
             sequel = matches.group(5).strip()
-            if message.reference is not None:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_or_share}/{link_id} {sequel}", reference=message.reference)
+            if reel_or_share == 'share':
+                new_link = f"https://ddinstagram.com/share/reel/{link_id}"
             else:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_or_share}/{link_id} {sequel}")
+                new_link = f"https://ddinstagram.com/reel/{link_id}"
+            if message.reference is not None:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} {new_link} {sequel}", reference=message.reference)
+            else:
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} {new_link} {sequel}")
             await message.delete()
 
     @bot.event
