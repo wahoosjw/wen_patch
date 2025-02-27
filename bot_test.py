@@ -150,19 +150,19 @@ def main():
             await message.delete()
 
     async def check_instagram(message):
-        """Checks if a message contains a instagram reel link and replaces it with an ddinstagram link."""
-        instagram_pattern = r'(.*)https:\/\/www\.instagram\.com\/(reel|share)\/'
+        """Checks if a message contains an Instagram reel or share link and replaces it with a ddinstagram link."""
+        instagram_pattern = r'(.*)https:\/\/(www\.)?instagram\.com\/(reel|share)\/([^\/\?\s]*)\?*\S*(.*)'
 
-        #https://www.instagram.com/reel/C7T6cJfxnHG/?igsh=MWJqcWpjZTE3cG1qbQ==
         if re.match(instagram_pattern, message.content):
-            matches = re.match(instagram_pattern, message.content, flags = re.DOTALL)
-            prequel = matches.group(1)
-            reel_link = matches.group(2)
-            sequel = matches.group(3)
+            matches = re.match(instagram_pattern, message.content, flags=re.DOTALL)
+            prequel = matches.group(1).strip()
+            reel_or_share = matches.group(3).strip()
+            link_id = matches.group(4).strip()
+            sequel = matches.group(5).strip()
             if message.reference is not None:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}", reference=message.reference)
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_or_share}/{link_id} {sequel}", reference=message.reference)
             else:
-                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/reel/{reel_link} {sequel}")
+                await message.channel.send(f"<@{message.author.id}> sent: {prequel} https://ddinstagram.com/{reel_or_share}/{link_id} {sequel}")
             await message.delete()
 
     @bot.event
