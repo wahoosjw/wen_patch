@@ -151,7 +151,8 @@ def main():
 
     async def check_instagram(message):
         """Checks if a message contains an Instagram reel or share link and replaces it with a ddinstagram link."""
-        instagram_pattern = r'(.*)https:\/\/(www\.)?instagram\.com\/(reel|share)\/([^\/\?\s]*)\?*\S*(.*)'
+        instagram_pattern = r'(.*)https:\/\/(www\.)?instagram\.com\/(reel|share)(?:\/reel)?\/([^\/\?\s]*)\?*\S*(.*)'
+
 
         if re.match(instagram_pattern, message.content):
             matches = re.match(instagram_pattern, message.content, flags=re.DOTALL)
@@ -160,7 +161,8 @@ def main():
             link_id = matches.group(4).strip()
             sequel = matches.group(5).strip()
             if reel_or_share == 'share':
-                new_link = f"https://ddinstagram.com/share/reel/{link_id}"
+                if 'reel' not in sequel:
+                    new_link = f"https://ddinstagram.com/share/reel/{link_id}"
             else:
                 new_link = f"https://ddinstagram.com/reel/{link_id}"
             if message.reference is not None:
