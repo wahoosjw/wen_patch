@@ -160,7 +160,8 @@ def main():
             link_id = matches.group(4).strip()
             sequel = matches.group(5).strip()
             if reel_or_share == 'share':
-                new_link = f"https://ddinstagram.com/share/reel/{link_id}"
+                if 'reel' not in sequel:
+                    new_link = f"https://ddinstagram.com/share/reel/{link_id}"
             else:
                 new_link = f"https://ddinstagram.com/reel/{link_id}"
             if message.reference is not None:
