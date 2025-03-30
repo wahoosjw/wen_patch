@@ -7,6 +7,7 @@ from datetime import datetime
 import re
 import argparse
 import configparser
+import boto3
 
 from sam_bot_help import SamBotHelp
 
@@ -25,7 +26,10 @@ class BotConf():
         config = configparser.ConfigParser()
         config.read(args.config)
         self.bot_token = config['Input'].get('bot_token')
-
+        self.boto3_secret = config['Input'].get('boto3_secret')
+        self.aws_key = config['Input'].get('aws_key')
+        self.region = config['Input'].get('region')
+        self.instance_id = config['Input'].get('instance_id')
 
 def main():
     # Set up bot
@@ -124,6 +128,48 @@ def main():
     async def goodbot(ctx):
         """Thanks the bot for its service."""
         await ctx.send(f'Thanks, {ctx.author.display_name}! <:peepoCheer:690742015339790457>')
+
+
+    @bot.command()
+    async def startmc(ctx):
+        """Starts the AWS instance defined in the config."""
+        try:
+            # Initialize the boto3 client
+            session = boto3.Session(
+                aws_access_key_id=bot_conf.aws_key,
+                aws_secret_access_key=bot_conf.boto3_secret,
+                region_name=bot_conf.region
+            )
+            ec2 = session.client('ec2')
+
+            # Start the instance
+            response = ec2.start_instances(InstanceIds=[bot_conf.instance_id])
+            instance_state = response['StartingInstances'][0]['CurrentState']['Name']
+
+            await ctx.send(f"Minecraft is starting now. Current state: {instance_state}.")
+        except Exception as e:
+            await ctx.send(f"Failed to start the Minecraft server")
+
+    @bot.command()
+    async def stopmc(ctx):
+        """Stops the AWS instance defined in the config."""
+        try:
+            # Initialize the boto3 client
+            session = boto3.Session(
+                aws_access_key_id=bot_conf.aws_key,
+                aws_secret_access_key=bot_conf.boto3_secret,
+                region_name=bot_conf.region
+            )
+            ec2 = session.client('ec2')
+
+            # Stop the instance
+            response = ec2.stop_instances(InstanceIds=[bot_conf.instance_id])
+            instance_state = response['StoppingInstances'][0]['CurrentState']['Name']
+
+            await ctx.send(f"Minecraft is stopping now. Current state: {instance_state}.")
+        except Exception as e:
+            await ctx.send(f"Failed to stop the Minecraft server")
+
 
     async def check_twitter(message):
         """Checks if a message contains a twitter link and replaces it with an fxtwitter link."""
