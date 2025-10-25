@@ -196,7 +196,7 @@ def main():
             await message.delete()
 
     async def check_instagram(message):
-        """Checks if a message contains an Instagram reel or share link and replaces it with a ddinstagram link."""
+        """Checks if a message contains an Instagram reel or share link and replaces it with a kkinstagram link."""
         instagram_pattern = r'(.*)https:\/\/(www\.)?instagram\.com\/(reel|share)(?:\/reel)?\/([^\/\?\s]*)\?*\S*(.*)'
 
 
@@ -208,9 +208,9 @@ def main():
             sequel = matches.group(5).strip()
             if reel_or_share == 'share':
                 if 'reel' not in sequel:
-                    new_link = f"https://ddinstagram.com/share/reel/{link_id}"
+                    new_link = f"https://kkinstagram.com/share/reel/{link_id}"
             else:
-                new_link = f"https://ddinstagram.com/reel/{link_id}"
+                new_link = f"https://kkinstagram.com/reel/{link_id}"
             if message.reference is not None:
                 await message.channel.send(f"<@{message.author.id}> sent: {prequel} {new_link} {sequel}", reference=message.reference)
             else:
