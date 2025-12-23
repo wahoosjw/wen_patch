@@ -1,4 +1,4 @@
-#Change this to build from the latest container image
+#Change this to build from the latest container image.
 FROM python:slim
 
 WORKDIR /usr/src/app
